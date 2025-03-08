@@ -2,7 +2,7 @@
 
 ### Description
 
-+ Devised Backend APIs for a Bank Management System to streamline CRUD operations.
++ Devised backend APIs for a Bank Management System to streamline CRUD operations.
 + Managed requests by setting up a Node JS backend server to communicate with the MySQL database holding 100+ users, ensuring efficient data management and retrieval.
 + Implemented JWT authentication, Role-based access control (RBAC), and Multi-factor authentication (MFA) for security.
 
