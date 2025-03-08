@@ -92,7 +92,7 @@ async function verifyOtp(req, res) {
         
         const isOtpValid = await bcrypt.compare(otp, userOtpDetails[0].otp_code);
         if (!isOtpValid) {
-            return res.status(403).json({ message: "Invalid OTP" });
+            return res.status(401).json({ message: "Invalid OTP" });
         }
         
         const [userDetails] = await db.query('SELECT user_id from users WHERE email = ?',[email]);
@@ -138,7 +138,7 @@ async function fundTransfer(req, res) {
         const senderAccount = senderDetail[0].account_number; 
 
         if (senderDetail[0].status !== 'active') {
-            return res.status(403).json({ message: "Transfer denied. Your account is blocked or pending" });
+            return res.status(423).json({ message: "Transfer denied. Your account is blocked or pending" });
         }
         if (senderDetail[0].balance < amount) {
             return res.status(400).json({ message: "Insufficient balance" });
@@ -153,7 +153,7 @@ async function fundTransfer(req, res) {
             return res.status(404).json({ message: "Receiver account does not exist" });
         }
         if (receiverDetail[0].status === 'blocked') {
-            return res.status(403).json({ message: "Transfer denied. Receiver account is blocked." });
+            return res.status(423).json({ message: "Transfer denied. Receiver account is blocked." });
         }
 
         await db.query('UPDATE users SET balance = balance - ? WHERE user_id = ?', [amount, userId]);
@@ -292,7 +292,7 @@ async function resetPassword(req, res) {
 
         const isOtpValid = await bcrypt.compare(otp, userOtpDetails[0].otp_code);
         if (!isOtpValid) {
-            return res.status(403).json({ message: "Invalid OTP" });
+            return res.status(401).json({ message: "Invalid OTP" });
         }
 
         const passwordHashed = await bcrypt.hash(newPassword, 10);
