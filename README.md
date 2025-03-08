@@ -10,7 +10,7 @@
 
 #### User Routes
 
-```sh
+```
 POST /api/user/register       - Register a new user account  
 POST /api/user/login          - Handle user login and send OTP via mail
 POST /api/user/verifyOtp      - Verify OTP for authentication and receive JWT token 
@@ -23,7 +23,7 @@ POST /api/user/resetPassword   - Reset password using OTP
 ```
 #### Manager Routes
 
-```sh
+```
 POST /api/manager/login                 - Manager login and receive JWT token 
 POST /api/manager/createCashierAccount  - Create a new cashier account and send cashier password via mail
 GET  /api/manager/users                 - Get all user details  
@@ -34,7 +34,7 @@ POST /api/manager/activateUser          - Activate a blocked user account
 ```
 #### Cashier Routes
 
-```sh
+```
 POST /api/cashier/login             - Cashier login and receive JWT token 
 POST /api/cashier/userAccountInfo   - Get user account information  
 POST /api/cashier/deposit           - Deposit funds into a user's account  
