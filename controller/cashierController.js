@@ -49,7 +49,7 @@ async function cashierUserAccountInfo(req, res) {
         }
 
         if (userDetails[0].status === 'blocked') {
-            return res.status(403).json({ message: "User account is blocked" });
+            return res.status(423).json({ message: "User account is blocked" });
         }
 
         return res.status(200).json({
@@ -90,7 +90,7 @@ async function cashierDeposit(req, res) {
         }
 
         if (userDetails[0].status === 'blocked') {
-            return res.status(403).json({ message: "User account is blocked" });
+            return res.status(423).json({ message: "User account is blocked" });
         }
 
         await db.query('UPDATE users SET balance = balance + ? WHERE account_number = ?', [amount, accountNumber]);
@@ -130,7 +130,7 @@ async function cashierWithdrawal(req, res) {
         }
 
         if (userDetails[0].status === 'blocked') {
-            return res.status(403).json({ message: "User account is blocked" });
+            return res.status(423).json({ message: "User account is blocked" });
         }
 
         if (userDetails[0].balance < amount) {
