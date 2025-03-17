@@ -2,7 +2,7 @@
 
 ### Description
 
-+ Devised backend APIs to streamline CRUD operations of banks.
++ Devised backend APIs to streamline CRUD operations for banks.
 + Managed requests by setting up a Node JS backend server to communicate with the MySQL database holding 100+ users, ensuring efficient data management and retrieval.
 + Implemented JWT authentication, Role-based access control (RBAC), and Multi-factor authentication (MFA) for security.
 
