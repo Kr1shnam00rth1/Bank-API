@@ -14,7 +14,7 @@ async function managerLogin(req, res) {
             return res.status(400).json({ message: "Email and password are required" });
         }
 
-        const  [managerDetails] = await db.query("SELECT password FROM managers WHERE email = ?", [email]);
+        const  [managerDetails] = await db.query("SELECT manager_id, password FROM managers WHERE email = ?", [email]);
 
         if (managerDetails.length !== 0 && (await bcrypt.compare(password, managerDetails[0].password))){
             const payload = { managerId: managerDetails[0].manager_id, role: "manager" };
