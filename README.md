@@ -38,7 +38,8 @@ POST /api/manager/activateUser          - Activate a blocked user account
 POST /api/cashier/login             - Cashier login and receive JWT token 
 POST /api/cashier/userAccountInfo   - Get user account information  
 POST /api/cashier/deposit           - Deposit funds into a user's account  
-POST /api/cashier/withdrawal        - Withdraw funds from a user's account  
+POST /api/cashier/withdrawal        - Withdraw funds from a user's account
+POST /api/cashier/changePassword    - Cashier Change password 
 ```
 
 ### Installation
