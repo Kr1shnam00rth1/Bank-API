@@ -12,12 +12,11 @@ async function cashierLogin(req, res) {
             return res.status(400).json({ message: "Email and password are required" });
         }
         
-        const [cashierDetails] = await db.query("SELECT password FROM cashiers WHERE email = ?", [email]);
+        const [cashierDetails] = await db.query("SELECT cashier_id, password FROM cashiers WHERE email = ?", [email]);
 
         if (cashierDetails.length !== 0 && (await bcrypt.compare(password, cashierDetails[0].password))){
             const payload = { cashierId: cashierDetails[0].cashier_id, role: "cashier" };
             const token = createToken(payload);
-
             res.cookie("authToken", token, { 
                 httpOnly: true, 
                 sameSite: "Strict"
@@ -149,4 +148,39 @@ async function cashierWithdrawal(req, res) {
     }
 }
 
-module.exports = { cashierLogin, cashierDeposit , cashierWithdrawal, cashierUserAccountInfo};
+// Function to handle cashier password change
+// Route: POST /api/cashier/changePassword
+async function cashierChangePassword(req, res) {
+    try {
+        const { newPassword, oldPassword } = req.body;
+
+        if (!newPassword || !oldPassword) {
+            return res.status(400).json({ message: "New Password and Old Password are required" });
+        }
+
+        const [cashierDetails] = await db.query("SELECT password FROM cashiers WHERE cashier_id = ?", [req.user.cashierId]);
+
+        if (cashierDetails.length === 0) {
+            return res.status(404).json({ message: "Cashier not found" });
+        }
+
+        const existingHashedPassword = cashierDetails[0].password;
+
+        const isMatch = await bcrypt.compare(oldPassword, existingHashedPassword);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Your Old Password is incorrect" });
+        }
+
+        const newPasswordHashed = await bcrypt.hash(newPassword, 10);
+
+        await db.query("UPDATE cashiers SET password = ? WHERE cashier_id = ?", [newPasswordHashed, req.user.cashierId]);
+
+        return res.status(200).json({ message: "Password changed successfully" });
+
+    } catch (error) {
+        console.error("Password change error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports = { cashierLogin, cashierDeposit , cashierWithdrawal, cashierUserAccountInfo, cashierChangePassword };
