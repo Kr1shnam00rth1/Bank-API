@@ -160,10 +160,6 @@ async function cashierChangePassword(req, res) {
 
         const [cashierDetails] = await db.query("SELECT password FROM cashiers WHERE cashier_id = ?", [req.user.cashierId]);
 
-        if (cashierDetails.length === 0) {
-            return res.status(404).json({ message: "Cashier not found" });
-        }
-
         const existingHashedPassword = cashierDetails[0].password;
 
         const isMatch = await bcrypt.compare(oldPassword, existingHashedPassword);
